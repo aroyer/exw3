@@ -38,7 +38,7 @@ defmodule ExW3.Contract do
   end
 
   @doc "Use a Contract's method with an eth_call"
-  @spec call(atom(), atom(), list(), any()) :: {:ok, any()}
+  @spec call(atom(), atom(), list(), any()) :: {:ok, any()} | {:error, any()}
   def call(contract_name, method_name, args \\ [], timeout \\ :infinity) do
     GenServer.call(ContractManager, {:call, {contract_name, method_name, args}}, timeout)
   end
@@ -211,7 +211,7 @@ defmodule ExW3.Contract do
 
     case result do
       {:ok, data} ->
-        ([:ok] ++ ExW3.Abi.decode_output(abi, method_name, data)) |> List.to_tuple()
+        {:ok, ExW3.Abi.decode_output(abi, method_name, data)}
 
       {:error, err} ->
         {:error, err}
