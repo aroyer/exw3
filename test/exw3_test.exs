@@ -49,7 +49,7 @@ defmodule ExW3Test do
 
     {:ok, data} = ExW3.Contract.call(:SimpleStorage, :get)
 
-    assert data == 0
+    assert data == [0]
 
     ExW3.Contract.send(:SimpleStorage, :set, [1], %{
       from: Enum.at(context[:accounts], 0),
@@ -58,7 +58,7 @@ defmodule ExW3Test do
 
     {:ok, data} = ExW3.Contract.call(:SimpleStorage, :get)
 
-    assert data == 1
+    assert data == [1]
   end
 
   test "starts a Contract GenServer for array tester contract", context do
@@ -82,11 +82,11 @@ defmodule ExW3Test do
 
     {:ok, result} = ExW3.Contract.call(:ArrayTester, :staticUint, [arr])
 
-    assert result == arr
+    assert result == [arr]
 
     {:ok, result} = ExW3.Contract.call(:ArrayTester, :dynamicUint, [arr])
 
-    assert result == arr
+    assert result == [arr]
   end
 
   test "starts a Contract GenServer for event tester contract", context do
@@ -302,7 +302,7 @@ defmodule ExW3Test do
 
     assert address == ExW3.Contract.address(:Complex)
 
-    {:ok, foo, foobar} = ExW3.Contract.call(:Complex, :getBoth)
+    {:ok, [foo, foobar]} = ExW3.Contract.call(:Complex, :getBoth)
 
     assert foo == 42
 
@@ -330,7 +330,7 @@ defmodule ExW3Test do
       Enum.at(context[:accounts], 0)
       |> ExW3.Utils.format_address()
 
-    {:ok, same_address} = ExW3.Contract.call(:AddressTester, :get, [formatted_address])
+    {:ok, [same_address]} = ExW3.Contract.call(:AddressTester, :get, [formatted_address])
 
     assert ExW3.Utils.to_address(same_address) == Enum.at(context[:accounts], 0)
   end
