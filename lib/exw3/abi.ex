@@ -45,15 +45,9 @@ defmodule ExW3.Abi do
       String.slice(output, 2..String.length(output)) |> Base.decode16(case: :lower)
 
     output_types = Enum.map(abi[name]["outputs"], fn x -> x["type"] end)
-    types_signature = Enum.join(["(", Enum.join(output_types, ","), ")"])
+    types_signature = Enum.join(output_types, ",")
     output_signature = "#{name}(#{types_signature})"
-
-    outputs =
-      ABI.decode(output_signature, trim_output)
-      |> List.first()
-      |> Tuple.to_list()
-
-    outputs
+    ABI.decode(output_signature, trim_output)
   end
 
   @doc "Returns the type signature of a given function"

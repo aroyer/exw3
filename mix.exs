@@ -30,7 +30,7 @@ defmodule ExW3.MixProject do
       {:ex_keccak, "~> 0.1.2"},
       {:ex_abi, "~> 0.5.1"},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:jason, "~> 1.2"}
+      {:jason, "~> 1.2"},
     ]
   end
 
